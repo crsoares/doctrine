@@ -2,19 +2,57 @@
 
 namespace Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @Entity()
+ * @Table(name="users")
+ */
 class User
 {
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue 
+     */
     private $id;
+    
+    /**
+     * @Column(type="string", name="first_name", nullable=true) 
+     */
     private $firstName;
+    
+    /**
+     * @Column(type="string", name="last_name", nullable=true)
+     */
     private $lastName;
+    
+    /**
+     * @Column(type="string", nullable=true) 
+     */
     private $gender;
+    
+    /**
+     * @Column(type="string", name="name_prefix", nullable=true) 
+     */
     private $namePrefix;
+    
+    /**
+     * @OneToMany(targetEntity="Post", mappedBy="users")
+     */
+    private $posts;
+    private $postRepository;
     
     const GENDER_MALE = 0;
     const GENDER_FEMALE = 1;
     
     const GENDER_MALE_DISPLAY_VALUE = "Mr.";
     const GENDER_FEMALE_DISPLAY_VALUE= "Mrs.";
+    
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
     
     public function assembleDisplayName()
     {
@@ -83,6 +121,29 @@ class User
     public function getNamePrefix()
     {
         return $this->namePrefix;
+    }
+    
+    /*public function getPosts()
+    {
+        if(is_null($this->posts)) {
+            $this->posts = $this->postRepository->findByUser($this);
+        }
+        return $this->posts;
+    }*/
+    
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+    }
+    
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+    
+    public function setPostRepository($postRepository)
+    {
+        $this->postRepository = $postRepository;
     }
     
 }

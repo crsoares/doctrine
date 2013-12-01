@@ -22,7 +22,7 @@ class User
         $data = array();
         
         foreach($this->mapping as $keyObject => $keyColumn) {
-            //if($keyColumn != 'id') {
+            if($keyColumn != 'id') {
                 /*
                  * funcao php call_user_func chama uma funcao do 
                  * usuario dada pelo primeiro parametro
@@ -30,7 +30,7 @@ class User
                 $data[$keyColumn] = call_user_func(
                             array($user, 'get' . ucfirst($keyObject))
                         );
-            //}
+            }
         }
         return $data;
     }

@@ -2,8 +2,8 @@
 
 namespace Repository;
 
-include_once "Entity/User.php";
-include_once "Mapper/User.php";
+include_once "../Entity/User.php";
+include_once "../Mapper/User.php";
 
 use Mapper\User as UserMapper;
 use Entity\User as UserEntity;
@@ -23,6 +23,13 @@ class User
         $userData = $this->em
                          ->query("SELECT * FROM users WHERE id = " . $id)
                          ->fetch();
-        return $this->mapper->populate($userData, new UserEntity());
+        
+        $newUser = new UserEntity();
+        $newUser->setPostRepository($this->em->getPostRepository());
+        
+        return $this->em->registerUserEntity(
+                    $id,
+                    $this->mapper->populate($userData, $newUser)
+                );
     }
 }

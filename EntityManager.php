@@ -1,9 +1,11 @@
 <?php
 
-include_once "Repository/User.php";
-include_once "Mapper/User.php";
+include_once "../Repository/User.php";
+include_once "../Repository/Post.php";
+include_once "../Mapper/User.php";
 
 use Repository\User as UserRepository;
+use Repository\Post as PostRepository;
 use Mapper\User as UserMapper;
 
 class EntityManager
@@ -14,6 +16,7 @@ class EntityManager
     private $pwd;
     private $connection;
     private $userRepository;
+    private $postRepository;
     private $identityMap;
     
     public function __construct($host, $db, $user, $pwd)
@@ -43,11 +46,9 @@ class EntityManager
                     array($user, 'get' . ucfirst($userMapper->getIdColumn()))
                 );
         //echo $data['id'];die;
-        //if(array_key_exists($userId, $this->identityMap['users'])) {
-        if($data['id'] != "") {
+        if(array_key_exists($userId, $this->identityMap['users'])) {
             $setString = '';
             foreach($data as $key => $value) {
-                if($key != 'id')
                     $setString .= $key . "='$value',";
             }
             
@@ -73,6 +74,16 @@ class EntityManager
         }else {
             $this->userRepository = new UserRepository($this);
             return $this->userRepository;
+        }
+    }
+    
+    public function getPostRepository()
+    {
+        if(!is_null($this->postRepository)) {
+            return $this->postRepository;
+        } else {
+            $this->postRepository = new PostRepository($this);
+            return $this->postRepository;
         }
     }
     
