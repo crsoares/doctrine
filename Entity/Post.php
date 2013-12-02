@@ -17,7 +17,7 @@ class Post
     private $id;
     
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="post")
+     * @ManyToOne(targetEntity="Entity\User", inversedBy="posts")
      * @JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -42,14 +42,14 @@ class Post
         return $this->id;
     }
     
-    public function setUserId($user_id)
+    public function setUser($user)
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
     }
     
-    public function getUserId()
+    public function getUser()
     {
-        return $this->user_id;
+        return $this->user;
     }
     
     public function setContent($content)

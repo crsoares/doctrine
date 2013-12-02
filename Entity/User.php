@@ -38,10 +38,22 @@ class User
     private $namePrefix;
     
     /**
-     * @OneToMany(targetEntity="Post", mappedBy="users")
+     * @OneToMany(targetEntity="Entity\Post", mappedBy="user")
      */
     private $posts;
-    private $postRepository;
+    
+    /**
+     * @OneToOne(targetEntity="Entity\ContactData")
+     * @JoinColumn(name="id", referencedColumnName="contactDataId")
+     */
+    private $contactData;
+    
+    /**
+     * @OneToOne(targetEntity="Entity\UserInfo", inversedBy="user")
+     */
+    private $userInfo;
+    
+    //private $postRepository;
     
     const GENDER_MALE = 0;
     const GENDER_FEMALE = 1;
@@ -141,9 +153,19 @@ class User
         return $this->posts;
     }
     
-    public function setPostRepository($postRepository)
+    public function setContactData($contactData)
+    {
+        $this->contactData = $contactData;
+    }
+    
+    public function getContactData()
+    {
+        return $this->contactData;
+    }
+    
+    /*public function setPostRepository($postRepository)
     {
         $this->postRepository = $postRepository;
-    }
+    }*/
     
 }
