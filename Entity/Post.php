@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * @Entity()
@@ -31,6 +33,16 @@ class Post
      * @Column(type="string") 
      */
     private $content;
+    
+    /**
+     * @ManyToMany(targetEntity="Entity\Tag", inversedBy="posts")
+     */
+    private $tags;
+    
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
     
     public function setId($id)
     {

@@ -53,6 +53,22 @@ class User
      */
     private $userInfo;
     
+    /**
+     * @ManyToMany(targetEntity="Entity\Role", inverdedBy="user")
+     * @JoinTable(name="users_role",
+     *         joinColumn={@JoinColumn(name="user", referencedColumnName="id")},
+     *         inverseJoinColumns={@JoinColumn(name="role", referencedColumnName="id")})
+     */
+    private $roles;
+    
+    /**
+     * @ManyToMany(targetEntity="Entity\Category")
+     * @JoinTable(name="users_categories",
+     *          joinColumns={@JoinColumn(name="user", referencedColumnName="id")},
+     *          inverseJoinColumns={@JoinColumn(name="category", referencedColumnName="id", unique=true)})
+     */
+    private $categories;
+    
     //private $postRepository;
     
     const GENDER_MALE = 0;
@@ -64,6 +80,7 @@ class User
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
     
     public function assembleDisplayName()
@@ -161,6 +178,16 @@ class User
     public function getContactData()
     {
         return $this->contactData;
+    }
+    
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+    }
+    
+    public function getCategories()
+    {
+        return $this->categories;
     }
     
     /*public function setPostRepository($postRepository)
