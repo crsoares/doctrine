@@ -24,7 +24,8 @@ $dbParams = array(
 $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
 $em = EntityManager::create($dbParams, $config);
 $user = $em->getRepository('Entity\User')->findOneById(1);
-var_dump($user->getContactData());die;
+//var_dump($user->getContactData());die;
+echo $user->getContactData()->getEmail();die;
 ?>
 <h1><?php echo $user->assembleDisplayName(); ?></h1>
 <ul>

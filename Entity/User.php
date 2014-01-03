@@ -48,25 +48,12 @@ class User
      */
     private $contactData;
     
-    /**
-     * @OneToOne(targetEntity="Entity\UserInfo", inversedBy="user")
-     */
+    
     private $userInfo;
     
-    /**
-     * @ManyToMany(targetEntity="Entity\Role", inverdedBy="user")
-     * @JoinTable(name="users_role",
-     *         joinColumn={@JoinColumn(name="user", referencedColumnName="id")},
-     *         inverseJoinColumns={@JoinColumn(name="role", referencedColumnName="id")})
-     */
     private $roles;
     
-    /**
-     * @ManyToMany(targetEntity="Entity\Category")
-     * @JoinTable(name="users_categories",
-     *          joinColumns={@JoinColumn(name="user", referencedColumnName="id")},
-     *          inverseJoinColumns={@JoinColumn(name="category", referencedColumnName="id", unique=true)})
-     */
+   
     private $categories;
     
     //private $postRepository;
@@ -173,6 +160,7 @@ class User
     public function setContactData($contactData)
     {
         $this->contactData = $contactData;
+        return $this;
     }
     
     public function getContactData()

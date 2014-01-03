@@ -18,10 +18,7 @@ class Post
      */
     private $id;
     
-    /**
-     * @ManyToOne(targetEntity="Entity\User", inversedBy="posts")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
-     */
+    
     private $user;
     
     /**
@@ -34,9 +31,7 @@ class Post
      */
     private $content;
     
-    /**
-     * @ManyToMany(targetEntity="Entity\Tag", inversedBy="posts")
-     */
+    
     private $tags;
     
     public function __construct()
