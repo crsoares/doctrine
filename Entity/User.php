@@ -5,7 +5,7 @@ namespace Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity()
+ * @Entity
  * @Table(name="users")
  */
 class User
@@ -48,7 +48,10 @@ class User
      */
     private $contactData;
     
-    
+    /**
+     * @OneToOne(targetEntity="Entity\UserInfo", inversedBy="user")
+     * @JoinColumn(name="userInfo_id", referencedColumnName="user_id")
+     */
     private $userInfo;
     
     private $roles;
@@ -64,11 +67,10 @@ class User
     const GENDER_MALE_DISPLAY_VALUE = "Mr.";
     const GENDER_FEMALE_DISPLAY_VALUE= "Mrs.";
     
-    public function __construct()
+    /*ublic function __construct()
     {
-        $this->posts = new ArrayCollection();
-        $this->categories = new ArrayCollection();
-    }
+        $this->userInfo = new ArrayCollection();
+    }*/
     
     public function assembleDisplayName()
     {
@@ -176,6 +178,22 @@ class User
     public function getCategories()
     {
         return $this->categories;
+    }
+    
+    public function setUserInfo($userInfo)
+    {
+        $this->userInfo = $userInfo;
+    }
+    
+    public function getUserInfo()
+    {
+        return $this->userInfo;
+    }
+    
+    public function removeUserInfo()
+    {
+        $this->userInfo->setUser(null);
+        $this->userInfo = null;
     }
     
     /*public function setPostRepository($postRepository)
