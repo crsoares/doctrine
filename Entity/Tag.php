@@ -5,7 +5,7 @@ namespace Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity()
+ * @Entity
  * @Table(name="tag")
  */
 class Tag
@@ -35,18 +35,19 @@ class Tag
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
     
     public function getId()
     {
-        $this->id;
+        return $this->id;
     }
     
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
-    
     public function getLabel()
     {
         return $this->label;
@@ -55,6 +56,7 @@ class Tag
     public function setPosts($posts)
     {
         $this->posts = $posts;
+        return $this;
     }
     
     public function getPosts()

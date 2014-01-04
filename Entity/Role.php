@@ -3,14 +3,14 @@
 namespace Entity;
 
 /**
- * @Entity()
+ * @Entity
  * @Table(name="role")
  */
 class Role
 {
     /**
      * @Id
-     * @Column(name="integer")
+     * @Column(type="integer")
      * @GeneratedValue
      */
     private $id;
@@ -23,6 +23,7 @@ class Role
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
     
     public function getId()
@@ -30,9 +31,10 @@ class Role
         return $this->id;
     }
     
-    public function setLable($label)
+    public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
     
     public function getLabel()

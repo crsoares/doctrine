@@ -54,6 +54,12 @@ class User
      */
     private $userInfo;
     
+    /**
+     * @ManyToMany(targetEntity="Entity\Role")
+     * @JoinTable(name="users_roles", 
+     *        joinColumns={@JoinColumn(name="user", referencedColumnName="id")},
+     *        inverseJoinColumns={@JoinColumn(name="role", referencedColumnName="id")})
+     */
     private $roles;
     
    
@@ -67,10 +73,10 @@ class User
     const GENDER_MALE_DISPLAY_VALUE = "Mr.";
     const GENDER_FEMALE_DISPLAY_VALUE= "Mrs.";
     
-    /*ublic function __construct()
+    public function __construct()
     {
-        $this->userInfo = new ArrayCollection();
-    }*/
+        $this->posts = new ArrayCollection();
+    }
     
     public function assembleDisplayName()
     {
