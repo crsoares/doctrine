@@ -27,7 +27,6 @@ class UserInfo
     
     /**
      * @OneToOne(targetEntity="Entity\User", mappedBy="userInfo")
-     * @JoinColumn(name="user_id", referencedColumnName="userInfo_id")
      */
     private $user;
     

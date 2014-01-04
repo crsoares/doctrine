@@ -44,13 +44,11 @@ class User
     
     /**
      * @OneToOne(targetEntity="Entity\ContactData")
-     * @JoinColumn(name="id", referencedColumnName="contactDataId")
      */
     private $contactData;
     
     /**
      * @OneToOne(targetEntity="Entity\UserInfo", inversedBy="user")
-     * @JoinColumn(name="userInfo_id", referencedColumnName="user_id")
      */
     private $userInfo;
     
@@ -62,7 +60,13 @@ class User
      */
     private $roles;
     
-   
+    /**
+     * @ManyToMany(targetEntity="Entity\Category")
+     * @JoinTable(name="users_categories",
+     *    joinColumns={@JoinColumn(name="user", referencedColumnName="id")},
+     *    inverseJoinColumns={@JoinColumn(name="category",
+     *              referencedColumnName="id", unique=true)})
+     */
     private $categories;
     
     //private $postRepository;
@@ -76,6 +80,7 @@ class User
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
     
     public function assembleDisplayName()
@@ -179,6 +184,7 @@ class User
     public function setCategories($categories)
     {
         $this->categories = $categories;
+        return $this;
     }
     
     public function getCategories()

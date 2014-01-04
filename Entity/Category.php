@@ -3,7 +3,7 @@
 namespace Entity;
 
 /**
- * @Entity()
+ * @Entity
  * @Table(name="category")
  */
 class Category
@@ -22,7 +22,8 @@ class Category
     
     public function setId($id)
     {
-        $this-> id = $id;
+        $this->id = $id;
+        return $this;
     }
     
     public function getId()
@@ -33,6 +34,7 @@ class Category
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
     
     public function getLabel()
