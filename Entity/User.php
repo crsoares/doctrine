@@ -5,7 +5,8 @@ namespace Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Repository\User")
+ * @HasLifecycleCallbacks
  * @Table(name="users")
  */
 class User
@@ -39,6 +40,7 @@ class User
     
     /**
      * @OneToMany(targetEntity="Entity\Post", mappedBy="user")
+     * @OrderBy({"id" = "ASC"})
      */
     private $posts;
     
@@ -69,7 +71,28 @@ class User
      */
     private $categories;
     
+    /**
+     * @OneToOne(targetEntity="Entity\User")
+     * @JoinColumn(name="partner", referencedColumnName="id")
+     */
+    private $lifePartner;
+    
+    /**
+     * @ManyToMany(targetEntity="Entity\User")
+     * @JoinTable(name="friends", 
+     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="friend_user_id", referencedColumnName="id")})
+     */
+    private $myFriends;
+    
+    /**
+     * @Column(type="string")
+     */
+    private $password;
+    
     //private $postRepository;
+    
+    const GENERATED_PASSWORD_LENGTH = 6;
     
     const GENDER_MALE = 0;
     const GENDER_FEMALE = 1;
@@ -81,6 +104,7 @@ class User
     {
         $this->posts = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->myFriends = new ArrayCollection();
     }
     
     public function assembleDisplayName()
@@ -105,6 +129,7 @@ class User
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        return $this;
     }
     
     public function getFirstName()
@@ -115,6 +140,7 @@ class User
     public function setGender($gender)
     {
         $this->gender = $gender;
+        return $this;
     }
     
     public function getGender()
@@ -125,6 +151,7 @@ class User
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
     
     public function getId()
@@ -135,6 +162,7 @@ class User
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        return $this;
     }
     
     public function getLastName()
@@ -145,6 +173,7 @@ class User
     public function setNamePrefix($namePrefix)
     {
         $this->namePrefix = $namePrefix;
+        return $this;
     }
     
     public function getNamePrefix()
@@ -163,6 +192,7 @@ class User
     public function setPosts($posts)
     {
         $this->posts = $posts;
+        return $this;
     }
     
     public function getPosts()
@@ -195,6 +225,7 @@ class User
     public function setUserInfo($userInfo)
     {
         $this->userInfo = $userInfo;
+        return $this;
     }
     
     public function getUserInfo()
@@ -206,6 +237,38 @@ class User
     {
         $this->userInfo->setUser(null);
         $this->userInfo = null;
+    }
+    
+    public function setLifePartner($lifePartner)
+    {
+        $this->lifePartner = $lifePartner;
+        return $this;
+    }
+    
+    public function getLifePartner()
+    {
+        return $this->lifePartner;
+    }
+    
+    public function setMyFriends($myFriends)
+    {
+        $this->myFriends = $myFriends;
+        return $this;
+    }
+    
+    public function getMyFriends()
+    {
+        return $this->myFriends;
+    }
+    
+    /**
+     * @PrePersist
+     */
+    public function generatePassword()
+    {
+        for($i = 1; $i <= self::GENERATED_PASSWORD_LENGTH; $i++) {
+            $this->password .= chr(rand(65, 90));
+        }
     }
     
     /*public function setPostRepository($postRepository)

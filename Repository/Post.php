@@ -2,34 +2,12 @@
 
 namespace Repository;
 
-include_once "../Entity/Post.php";
-include_once "../Mapper/Post.php";
+use Doctrine\ORM\EntityRepository;
 
-use Entity\Post as PostEntity;
-use Mapper\Post as PostMapper;
-
-class Post
+class Post extends EntityRepository
 {
-    private $em;
-    private $mapper;
-    
-    public function __construct($em)
+    public function findAllPostsWithTag($tag)
     {
-        $this->mapper = new PostMapper();
-        $this->em = $em;
-    }
-    
-    public function findByUser($user)
-    {
-        $postsData = $this->em
-                          ->query("SELECT * FROM posts WHERE user_id = " . $user->getId())
-                          ->fetchAll();
-        $posts = array();
-        
-        foreach($postsData as $postData) {
-            $newPost = new PostEntity();
-            $posts[] = $this->mapper->populate($postData, $newPost);
-        }
-        return $posts;
+        //DQL declaração vai aqui
     }
 }

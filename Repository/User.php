@@ -2,34 +2,30 @@
 
 namespace Repository;
 
-include_once "../Entity/User.php";
-include_once "../Mapper/User.php";
+use Doctrine\ORM\EntityRepository;
 
-use Mapper\User as UserMapper;
-use Entity\User as UserEntity;
-
-class User
+class User extends EntityRepository 
 {
-    private $em;
-    private $mapper;
-    
-    public function __construct($em) {
-        $this->mapper = new UserMapper();
-        $this->em = $em;
+    public function listUser()
+    {
+        $query = $this->getEntityManager()
+                      ->createQuery(
+                                "SELECT u FROM Entity\User u WHERE u.lastName = 'da Silva'"
+                              );
+        $users = $query->getResult();
+        return $users;
     }
     
-    public function findOneById($id)
+    public function listUsers()
     {
-        $userData = $this->em
-                         ->query("SELECT * FROM users WHERE id = " . $id)
-                         ->fetch();
+        $qb = $this->getEntityManager()
+                   ->createQueryBuilder();
         
-        $newUser = new UserEntity();
-        $newUser->setPostRepository($this->em->getPostRepository());
+        $qb->select('u')
+           ->from('Entity\User', 'u')
+           ->where($qb->expr()->eq('u.lastName', '?1'))
+           ->setParameter(1, 'da Silva');
         
-        return $this->em->registerUserEntity(
-                    $id,
-                    $this->mapper->populate($userData, $newUser)
-                );
+        return $qb->getQuery()->getResult();
     }
 }

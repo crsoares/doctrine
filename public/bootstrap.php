@@ -2,14 +2,19 @@
 
 chdir(dirname(__DIR__));
 
+include "AutoloaderClass.php";
+AutoloaderClass::initialize();
+
 if(file_exists('vendor/autoload.php')) {
     $loader = include 'vendor/autoload.php';
 }
 
-include "Entity/User.php";
+
+
+/*include "Entity/User.php";
 include "Entity/Post.php";
 include "Entity/ContactData.php";
-include "Entity/UserInfo.php";
+include "Entity/UserInfo.php";*/
 
 
 

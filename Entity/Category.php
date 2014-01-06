@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity
  * @Table(name="category")
@@ -19,6 +21,22 @@ class Category
      * @Column(type="string")
      */
     private $label;
+    
+    /**
+     * @OneToMany(targetEntity="Entity\Category", mappedBy="parent")
+     */
+    private $children;
+    
+    /**
+     * @ManyToOne(targetEntity="Entity\Category", inversedBy="children")
+     * @JoinColumn(name="parent_id", referencedColumnName="id")
+     */
+    private $parent;
+    
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
     
     public function setId($id)
     {
@@ -40,5 +58,16 @@ class Category
     public function getLabel()
     {
         return $this->label;
+    }
+    
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+    
+    public function getParent()
+    {
+        return $this->parent;
     }
 }
