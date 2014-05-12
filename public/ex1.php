@@ -1,19 +1,9 @@
 <?php
 
-include "EntityManager.php";
+require "bootstrap.php";
 
-$entity = new EntityManager('localhost', 'app', 'root', '');
-
-$user = $entity->getUserRepository()
-              ->findOneById(1);
-
-echo $user->assembleDisplayName() . "<br />";
-
-$newUser = new Entity\User();
-$newUser->setFirstName('Ute');
-$newUser->setLastName('Musermann');
-$newUser->setGender(1);
-
-$entity->saveUser($newUser);
-
-echo $newUser->assembleDisplayName();
+$user = $em->getRepository('Entity\User')->findOneById(1);
+echo $user->assembleDisplayName();
+$user->setFirstName('Joao');
+$em->persist($user);
+$em->flush();

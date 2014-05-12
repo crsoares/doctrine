@@ -1,10 +1,10 @@
 <?php
 
-include_once "EntityManager.php";
+require "bootstrap.php";
 
-$em = new EntityManager('localhost', 'app', 'root', '');
-$user = $em->getUserRepository()->findOneById(2);
-echo $user->assembleDisplayName();
+$user = $em->getRepository('Entity\User')->findOneById(1);
 
-$user->setFirstName('Moritz');
-$em->saveUser($user);
+echo $user->assembleDisplayName() . '<br />';
+foreach($user->getPosts() as $posts) {
+	echo $posts->getTitle();
+}
